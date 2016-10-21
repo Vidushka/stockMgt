@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 /**
  * Created by hsenid on 10/17/16.
+ *
  * @author Vidushka
  */
 public class StockController {
@@ -12,7 +13,7 @@ public class StockController {
     static int id = 3;
 
     /**
-     *main method executes add record method of this class
+     * main method executes add record method of this class
      */
     public static void main(String[] args) {
         addRecord();
@@ -42,7 +43,7 @@ public class StockController {
 
         top:
         for (; ; ) {
-            System.out.println("Are you going to update(u) or add(a) new record or view(v) or genarate bill(b) or exit(ex)? ");
+            System.out.println("Are you going to update(u) or add(a) new record or view(v) or add to cart(ac) or exit(ex)? ");
             String insertType = input.nextLine();
             insert:
             if (insertType.equals("a")) {
@@ -68,8 +69,7 @@ public class StockController {
                 System.out.println("Do you enter more records (y/n)? ");
                 String swtch = input.nextLine();
                 if (swtch.equals("n")) {
-                    newStock.getReport();
-                    break top;
+                    newStock.viewAllStocks();
 
                 } else if (swtch.equals("y")) {
                     continue;
@@ -122,8 +122,9 @@ public class StockController {
                 } else {
                     newStock.viewSelected(viewType);
                 }
+
             } else if (insertType.equals("b")) {
-                newStock.getReport();
+                //newStock.getReport();
 
                 System.out.println("Payment");
                 double payment = Double.parseDouble(input.nextLine());
@@ -131,6 +132,30 @@ public class StockController {
                 newStock.getReport();
                 System.out.println("Paied " + payment);
                 System.out.println("balance " + balance);
+
+            } else if (insertType.equals("ac")) {
+                addToCart:
+                for ( ; ; ) {
+                    System.out.println("Add items for billing(Product Id)");
+                    String items = input.nextLine();
+                    System.out.println("Quantity");
+                    double d = Double.parseDouble(input.nextLine());
+
+                    newStock.addToCart(items, d);
+                    System.out.println("Add(+) or genarate bill(b)");
+                    String cartOptions = input.nextLine();
+
+                    if (cartOptions.equals("+")) {
+                        continue;
+                    } else if (cartOptions.equals("b")) {
+                        newStock.getReport();
+                        System.out.println("Payed amount ");
+                        double payment = Double.parseDouble(input.nextLine());
+                        newStock.countBalance(payment);
+                        newStock.showNotes();
+                        break top;
+                    }
+                }
             } else if (insertType.equals("ex")) {
                 break top;
             }

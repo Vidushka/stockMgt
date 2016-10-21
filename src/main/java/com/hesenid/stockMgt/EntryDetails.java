@@ -10,4 +10,5 @@ public class EntryDetails {
     double qty;
     double unitPrice;
     double totalValue;
+    double billTotal;
 }
